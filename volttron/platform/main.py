@@ -43,7 +43,7 @@ import errno
 import logging
 from logging import handlers
 import logging.config
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 import os
 import resource
@@ -58,6 +58,7 @@ import gevent
 from gevent.fileobject import FileObject
 import zmq
 from zmq import green, ZMQError
+
 
 # Create a context common to the green and non-green zmq modules.
 green.Context._instance = green.Context.shadow(zmq.Context.instance().underlying)

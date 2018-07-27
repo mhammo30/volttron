@@ -89,7 +89,7 @@ class Status(object):
     @property
     def context(self):
         if self._context:
-            if isinstance(self._context, basestring):
+            if isinstance(self._context, str):
                 return self._context
             return self._context.copy()
         return None

@@ -362,7 +362,7 @@ class PlatformWrapper:
         return add_volttron_central(self)
 
     def add_capabilities(self, publickey, capabilities):
-        if isinstance(capabilities, basestring):
+        if isinstance(capabilities, str):
             capabilities = [capabilities]
         auth, auth_path = self._read_auth_file()
         cred = publickey

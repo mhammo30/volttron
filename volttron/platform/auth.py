@@ -496,7 +496,7 @@ class AuthEntry(object):
     def _build_field(value, list_class=List, str_class=String):
         if not value:
             return None
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             return String(value)
         return List(String(elem) for elem in value)
 

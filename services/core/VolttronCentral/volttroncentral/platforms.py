@@ -123,7 +123,7 @@ class Platforms(object):
         """
         Returns true if the platform is currently known.
 
-        :type platform_vip_identity: basestring
+        :type platform_vip_identity: str
         :rtype: Boolean
         :return: Whether the platform is known or not.
         """

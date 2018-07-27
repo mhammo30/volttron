@@ -43,7 +43,8 @@ import os
 import os.path
 import errno
 from csv import DictReader
-from StringIO import StringIO
+#from StringIO import StringIO
+from io import StringIO
 
 from volttron.platform.agent import json as jsonapi
 from gevent.lock import Semaphore
@@ -186,7 +187,7 @@ class ConfigStoreService(Agent):
                 _log.error("Agent {} failure when all configurations: {}".format(identity, e))
             except MethodNotFound as e:
                 _log.error(
-                    "Agent {} failure when adding/updating configuration {}: {}".format(identity, config_name, e))
+                    "Agent {} failure when adding/updating configuration {}: {}".format(identity, 'config_name', e))
 
         # If the store is still empty (nothing jumped in and added to it while
         # we were informing the agent) then remove it from the global store.

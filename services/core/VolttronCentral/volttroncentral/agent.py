@@ -855,7 +855,7 @@ class VolttronCentralAgent(Agent):
                 platform = self._platforms.get_platform(platform_uuid)
                 # Determine whether the method to call is on the current class
                 # or on the platform object.
-                if isinstance(class_method, basestring):
+                if isinstance(class_method, str):
                     method_ref = getattr(platform, class_method)
                 else:
                     method_ref = class_method

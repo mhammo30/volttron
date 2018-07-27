@@ -418,7 +418,7 @@ class _Socket(object):
             self.send_multipart([peer, user, msg_id, subsystem],
                                 flags=flags|more, copy=copy, track=track)
             if args:
-                send = (self.send if isinstance(args, basestring)
+                send = (self.send if isinstance(args, str)
                         else self.send_multipart)
                 send(args, flags=flags, copy=copy, track=track)
 

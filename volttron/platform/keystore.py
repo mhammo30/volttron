@@ -47,7 +47,7 @@
 import json
 import logging
 import os
-import urlparse
+import urllib.parse as urlparse
 
 from zmq import curve_keypair
 

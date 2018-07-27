@@ -195,7 +195,7 @@ class VolttronPackageWheelFileNoSign(WheelFile):
 
     def remove_files(self, files):
         '''Relative to files in the package, ie: ./dist-info/config.'''
-        if isinstance(files, basestring):
+        if isinstance(files, str):
             files = [files]
         tmpdir = tempfile.mkdtemp()
         try:
@@ -320,7 +320,8 @@ class BasePackageVerifier(object):
                     continue
                 algo, expected_hash = hashspec.split('=', 1)
                 hash = hashlib.new(algo)
-                with closing(self.open(filename, 'rb')) as file:
+                #with closing(self.open(filename, 'rb')) as file:
+                with open(filename, 'rb') as file:
                     while True:
                         data = file.read(4096)
                         if not data:

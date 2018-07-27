@@ -57,10 +57,10 @@ from volttron.platform import get_volttron_data
 from volttron.utils.prompt import prompt_response
 
 try:
-     from volttron.restricted import (auth, certs)
+    from volttron.restricted import (auth, certs)
 except ImportError:
-     auth = None
-     certs = None
+    auth = None
+    certs = None
 
 
 _log = logging.getLogger(os.path.basename(sys.argv[0])
@@ -704,7 +704,7 @@ def main(argv=sys.argv):
                             print('Invalid package name {}'.format(opts.package))
                         verifier = auth.SignedZipPackageVerifier(opts.package)
                         verifier.verify()
-                        print "Package is verified"
+                        print("Package is verified")
                     else:
                         user_type = {'admin': opts.admin,
                                   'creator': opts.creator,

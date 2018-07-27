@@ -42,7 +42,7 @@ import os
 import re
 import requests
 import base64
-from urlparse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin
 
 import gevent
 import gevent.pywsgi
@@ -54,8 +54,9 @@ import zlib
 
 import mimetypes
 
-from requests.packages.urllib3.connection import (ConnectionError,
-                                                  NewConnectionError)
+from requests.packages import ConnectionError, NewConnectionError
+# from requests.packages.urllib3.connection import (ConnectionError,
+#                                                   NewConnectionError)
 from volttron.platform.agent import json as jsonapi
 
 from .auth import AuthEntry, AuthFile, AuthFileEntryAlreadyExists
@@ -68,15 +69,15 @@ from .vip.socket import encode_key
 _log = logging.getLogger(__name__)
 
 
-class CouldNotRegister(StandardError):
+class CouldNotRegister(Exception):
     pass
 
 
-class DuplicateEndpointError(StandardError):
+class DuplicateEndpointError(Exception):
     pass
 
 
-class DiscoveryError(StandardError):
+class DiscoveryError(Exception):
     """ Raised when a different volttron central tries to register.
     """
     pass

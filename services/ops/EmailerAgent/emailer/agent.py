@@ -272,7 +272,7 @@ class EmailerAgent(Agent):
         _log.info('Sending email {}'.format(subject))
         _log.debug('Mail from: {}, to: {}'.format(from_address, to_addresses))
         recipients = to_addresses
-        if isinstance(recipients, basestring):
+        if isinstance(recipients, str):
             recipients = [recipients]
 
         # Use unicode to protect against encod error
@@ -337,7 +337,7 @@ class EmailerAgent(Agent):
 
         from_address = self.current_config['alert_from_address']
         recipients = self.current_config['alert_to_addresses']
-        if isinstance(recipients, basestring):
+        if isinstance(recipients, str):
             recipients = [recipients]
 
         # After here we are going to attempt to send the email out

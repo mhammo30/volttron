@@ -169,11 +169,11 @@ def unpack_legacy_message(headers, message):
         content_type = headers['Content-Type']
     except KeyError:
         return headers, message
-    if isinstance(content_type, basestring):
+    if isinstance(content_type, str):
         if content_type.lower() == 'application/json':
             if isinstance(message, list) and len(message) == 1:
                 return jsonapi.loads(message[0])
-            if isinstance(message, basestring):
+            if isinstance(message, str):
                 return jsonapi.loads(message)
         if isinstance(message, list) and len(message) == 1:
             return message[0]

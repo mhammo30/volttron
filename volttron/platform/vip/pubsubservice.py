@@ -804,7 +804,7 @@ class ProtectedPubSubTopics(object):
         self._re_list = []
 
     def add(self, topic, capabilities):
-        if isinstance(capabilities, basestring):
+        if isinstance(capabilities, str):
             capabilities = [capabilities]
         if len(topic) > 1 and topic[0] == topic[-1] == '/':
             regex = re.compile('^' + topic[1:-1] + '$')

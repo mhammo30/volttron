@@ -1315,7 +1315,7 @@ class ActuatorAgent(Agent):
         headers['type'] = SCHEDULE_ACTION_NEW
         local_tz = get_localzone()
         try:
-            if requests and isinstance(requests[0], basestring):
+            if requests and isinstance(requests[0], str):
                 requests = [requests]
 
             tmp_requests = requests
