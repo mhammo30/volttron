@@ -207,7 +207,7 @@ class Interface(BasicRevert, BaseInterface):
 
     def _scrape_all(self):
         """Scrape the values of all registers, fetching them from SEP2Agent."""
-        for point_name, point_value in self.call_agent_rpc('get_points').iteritems():
+        for point_name, point_value in self.call_agent_rpc('get_points').items():
             if point_name in self.point_map.keys():
                 self.get_register_by_name(point_name).set_value(point_value)
         read_registers = self.get_registers_by_type('byte', True)

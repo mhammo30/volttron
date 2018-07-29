@@ -83,6 +83,7 @@ class RoutingService(object):
         self._monitor_sockets = set()
         self._socket_identities = dict()
         self._web_addresses = []
+        self._my_vip_id = None #!# error not exists
 
     def handle_subsystem(self, frames):
         """

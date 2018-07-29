@@ -714,7 +714,7 @@ class BaseHistorianAgent(Agent):
         if self.gather_timing_data:
             add_timing_data_to_header(headers, self.core.agent_uuid or self.core.identity, "collected")
 
-        for point, item in data.iteritems():
+        for point, item in data.items():
             if 'Readings' not in item or 'Units' not in item:
                 _log.error("logging request for {topic} missing Readings "
                            "or Units".format(topic=topic))
@@ -834,7 +834,7 @@ class BaseHistorianAgent(Agent):
         if self.gather_timing_data:
             add_timing_data_to_header(headers, self.core.agent_uuid or self.core.identity, "collected")
 
-        for key, value in values.iteritems():
+        for key, value in values.items():
             point_topic = device + '/' + key
             self._event_queue.put({'source': source,
                                    'topic': point_topic,
@@ -1228,7 +1228,7 @@ class BackupDatabase:
                 self._backup_cache[topic] = topic_id
 
             meta_dict = self._meta_data[(source, topic_id)]
-            for name, value in meta.iteritems():
+            for name, value in meta.items():
                 current_meta_value = meta_dict.get(name)
                 if current_meta_value != value:
                     c.execute('''INSERT OR REPLACE INTO metadata

@@ -22,3 +22,4 @@ applications
 /docs/build/*
 /docs/source/apidocs
 volttron.log
+**/.vscode/

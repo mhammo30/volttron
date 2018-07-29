@@ -57,7 +57,7 @@ import logging
 import re
 import sys
 import urllib
-import urlparse
+import urllib.parse as urlparse
 import uuid
 
 from zmq import (SNDMORE, RCVMORE, NOBLOCK, POLLOUT, DEALER, ROUTER,
@@ -135,7 +135,7 @@ class Address(object):
     def __init__(self, address, **defaults):
         for name in self._KEYS:
             setattr(self, name, None)
-        for name, value in defaults.iteritems():
+        for name, value in defaults.items():
             setattr(self, name, value)
 
         url = urlparse.urlparse(address, 'tcp')
@@ -174,7 +174,7 @@ class Address(object):
     @property
     def qs(self):
         params = ((name, getattr(self, name)) for name in self._KEYS)
-        return urllib.urlencode(
+        return urlparse.urlencode(
             {name: ('XXXXX' if name in self._MASK_KEYS and value else value)
              for name, value in params if value is not None})
 
@@ -184,7 +184,7 @@ class Address(object):
         if qs:
             parts.extend(['?', qs])
         if self.identity is not None:
-            parts.extend(['#', urllib.quote(self.identity)])
+            parts.extend(['#', urlparse.quote(self.identity)])
         return ''.join(parts)
 
     def __repr__(self):
@@ -193,33 +193,33 @@ class Address(object):
 
     def bind(self, sock, bind_fn=None):
         '''Extended zmq.Socket.bind() to include options in the address.'''
-        if not self.domain:
+        if not self.domain: #pylint: disable=E1101
             raise ValueError('Address domain must be set')
-        sock.zap_domain = self.domain or ''
+        sock.zap_domain = self.domain or '' #pylint: disable=E1101
         if self.identity:
             sock.identity = self.identity
         elif not sock.identity:
             sock.identity = self.identity = bytes(uuid.uuid4())
-        sock.ipv6 = self.ipv6 or False
-        if self.server == 'CURVE':
+        sock.ipv6 = self.ipv6 or False #pylint: disable=E1101
+        if self.server == 'CURVE': #pylint: disable=E1101
             if not self.secretkey:
                 raise ValueError('CURVE server used without secretkey')
             sock.curve_server = True
             sock.curve_secretkey = self.secretkey
-        elif self.server == 'PLAIN':
+        elif self.server == 'PLAIN': #pylint: disable=E1101
             sock.plain_server = True
         else:
             sock.curve_server = False
             sock.plain_server = False
-            if self.serverkey:
-                sock.curve_serverkey = self.serverkey
+            if self.serverkey: #pylint: disable=E1101
+                sock.curve_serverkey = self.serverkey #pylint: disable=E1101
                 if not (self.publickey and self.secretkey):
                     self.publickey, self.secretkey = curve_keypair()
                 sock.curve_secretkey = self.secretkey
                 sock.curve_publickey = self.publickey
-            elif self.username:
-                sock.plain_username = self.username
-                sock.plain_password = self.password or b''
+            elif self.username: #pylint: disable=E1101
+                sock.plain_username = self.username #pylint: disable=E1101
+                sock.plain_password = self.password or b'' #pylint: disable=E1101
         try:
             (bind_fn or sock.bind)(self.base)
             self.base = sock.last_endpoint
@@ -236,16 +236,16 @@ class Address(object):
             sock.identity = self.identity
         elif not sock.identity:
             sock.identity = self.identity = bytes(uuid.uuid4())
-        sock.ipv6 = self.ipv6 or False
-        if self.serverkey:
-            sock.curve_serverkey = self.serverkey
+        sock.ipv6 = self.ipv6 or False #pylint: disable=E1101
+        if self.serverkey: #pylint: disable=E1101
+            sock.curve_serverkey = self.serverkey #pylint: disable=E1101
             if not (self.publickey and self.secretkey):
                 self.publickey, self.secretkey = curve_keypair()
             sock.curve_secretkey = self.secretkey
             sock.curve_publickey = self.publickey
-        elif self.username and self.password is not None:
-            sock.plain_username = self.username
-            sock.plain_password = self.password
+        elif self.username and self.password is not None: #pylint: disable=E1101
+            sock.plain_username = self.username #pylint: disable=E1101
+            sock.plain_password = self.password #pylint: disable=E1101
         (connect_fn or sock.connect)(self.base)
 
     def reset(self, sock):
@@ -269,7 +269,7 @@ class Message(object):
             name, [bytes(x) for x in value]
             if isinstance(value, (list, tuple))
             else bytes(value)) for name, value in
-                self.__dict__.iteritems())
+                self.__dict__.items())
         return '%s(**{%s})' % (self.__class__.__name__, attrs)
 
 

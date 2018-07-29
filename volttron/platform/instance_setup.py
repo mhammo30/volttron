@@ -35,13 +35,13 @@
 # BATTELLE for the UNITED STATES DEPARTMENT OF ENERGY
 # under Contract DE-AC05-76RL01830
 # }}}
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import argparse
 import getpass
 import hashlib
 import os
 import sys
-import urlparse
+import urllib.parse as urlparse
 import tempfile
 
 from gevent import subprocess
@@ -107,7 +107,7 @@ def _cmd(cmdargs):
 
 def _is_bound_already(address):
     context = zmq.Context()
-    dealer_sock = context.socket(zmq.DEALER)
+    dealer_sock = context.socket(zmq.DEALER) #pylint: disable=E1101
     already_bound = False
     try:
         dealer_sock.bind(address)
@@ -139,9 +139,7 @@ to stop the instance.
 def fail_if_not_in_src_root():
     in_src_root = os.path.exists("./volttron") and os.path.exists("./.git")
     if not in_src_root:
-        print """
-volttron-cfg needs to be run from the volttron top level source directory.
-"""
+        print("volttron-cfg needs to be run from the volttron top level source directory.")
         sys.exit()
 
 
@@ -184,7 +182,7 @@ def installs(agent_dir, tag, identity=None, post_install_func=None):
             if identity is not None:
                 os.environ['AGENT_VIP_IDENTITY'] = identity
 
-            print 'Configuring {}'.format(agent_dir)
+            print('Configuring {}'.format(agent_dir))
             config = config_func(*args, **kwargs)
             _install_config_file()
             _start_platform()
@@ -530,7 +528,7 @@ def main():
     _load_config()
 
     if args.list_agents:
-        print "Agents available to configure:{}".format(agent_list)
+        print("Agents available to configure:{}".format(agent_list))
 
     elif not args.agent:
         wizard()
@@ -539,7 +537,7 @@ def main():
         # Warn about unknown agents
         for agent in args.agent:
             if agent not in available_agents:
-                print '"{}" not configurable with this tool'.format(agent)
+                print('"{}" not configurable with this tool'.format(agent))
 
         # Configure agents
         for agent in args.agent:

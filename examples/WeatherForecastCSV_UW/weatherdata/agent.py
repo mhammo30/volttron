@@ -251,7 +251,7 @@ Convert data downloaded
 '''
 def convert(_input):
     if isinstance(_input, dict):
-        return {convert(key): convert(value) for key, value in _input.iteritems()}
+        return {convert(key): convert(value) for key, value in _input.items()}
     elif isinstance(_input, list):
         return [convert(element) for element in _input]
     elif isinstance(_input, unicode):

@@ -49,7 +49,7 @@ import logging
 import os
 import urllib.parse as urlparse
 
-from zmq import curve_keypair
+from zmq import curve_keypair #pylint: disable=E0611
 
 from .agent.utils import create_file_if_missing
 from .vip.socket import encode_key

@@ -405,7 +405,7 @@ class ScheduleManager(object):
         conflicts = defaultdict(dict)
         preempted_tasks = set()
 
-        for task_id, task in self.tasks.iteritems():
+        for task_id, task in self.tasks.items():
             conflict_list = new_task.get_conflicts(task)
             agent_id = task.agent_id
             if conflict_list:
@@ -455,7 +455,7 @@ class ScheduleManager(object):
             agent_id = task.agent_id
             current_task_slots = task.get_current_slots(now)
             _log.debug("current_task_slots {}".format(current_task_slots))
-            for device, time_slot in current_task_slots.iteritems():
+            for device, time_slot in current_task_slots.items():
                 assert (device not in running_results)
                 running_results[device] = DeviceState(agent_id, task_id, (
                     time_slot.end - now).total_seconds())
@@ -464,7 +464,7 @@ class ScheduleManager(object):
             task = self.tasks[task_id]
             agent_id = task.agent_id
             current_task_slots = task.get_current_slots(now)
-            for device, time_slot in current_task_slots.iteritems():
+            for device, time_slot in current_task_slots.items():
                 assert (device not in preempted_results)
                 preempted_results[device] = DeviceState(agent_id, task_id, (
                     time_slot.end - now).total_seconds())

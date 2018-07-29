@@ -290,7 +290,7 @@ class MessageDebuggerAgent(Agent):
         """Set up a filtered database query."""
         db_object = globals()[db_object_name]
         query_results = self.db_session().query(db_object)
-        for key, value in self._filters.iteritems():
+        for key, value in self._filters.items():
             if key == 'starttime' and hasattr(db_object, 'timestamp'):      # for DebugMessage
                 query_results = query_results.filter(getattr(db_object, 'timestamp') >= value)
             if key == 'starttime' and hasattr(db_object, 'sender_time'):    # for DebugMessageExchange

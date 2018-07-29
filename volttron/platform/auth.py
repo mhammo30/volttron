@@ -108,7 +108,7 @@ class AuthService(Agent):
 
     @Core.receiver('onsetup')
     def setup_zap(self, sender, **kwargs):
-        self.zap_socket = zmq.Socket(zmq.Context.instance(), zmq.ROUTER)
+        self.zap_socket = zmq.Socket(zmq.Context.instance(), zmq.ROUTER) #pylint: disable=E1101
         self.zap_socket.bind('inproc://zeromq.zap.01')
         if self.allow_any:
             _log.warn('insecure permissive authentication enabled')
@@ -190,7 +190,8 @@ class AuthService(Agent):
         self._is_connected = True
         self._zap_greenlet = gevent.getcurrent()
         sock = self.zap_socket
-        time = gevent.core.time
+        #!# gevent.core.time was depriciated, maybe find new
+        time = gevent.core.time #pylint: disable=E1101
         blocked = {}
         wait_list = []
         timeout = None
@@ -204,7 +205,7 @@ class AuthService(Agent):
                 version = zap[2]
                 if version != b'1.0':
                     continue
-                domain, address, userid, kind = zap[4:8]
+                domain, address, userid, kind = zap[4:8] #pylint: disable=E0632
                 credentials = zap[8:]
                 if kind == b'CURVE':
                     credentials[0] = encode_key(credentials[0])
@@ -387,7 +388,7 @@ class AuthService(Agent):
         try:
             self.auth_file.add(new_entry, overwrite=False)
         except AuthException as err:
-            _log.error('ERROR: %s\n' % err.message)
+            _log.error('ERROR: %s\n' % str(err))
 
     def _update_auth_failures(self, domain, address, mechanism, credential, user_id):
         for entry in self._auth_failures:
@@ -410,7 +411,7 @@ class AuthService(Agent):
         self._auth_failures.append(dict(fields))
         return
 
-class String(unicode):
+class String(str):
     def __new__(cls, value):
         obj = super(String, cls).__new__(cls, value)
         if isregex(obj):
@@ -715,7 +716,7 @@ class AuthFile(object):
                           file_entry, self.auth_file)
             except AuthEntryInvalid as e:
                 _log.warn('invalid entry %r in auth file %s (%s)',
-                          file_entry, self.auth_file, e.message)
+                          file_entry, self.auth_file, str(e))
             else:
                 entries.append(entry)
         return entries
@@ -821,7 +822,7 @@ class AuthFile(object):
         param_name = 'groups' if is_group else 'roles'
         if not isinstance(groups_or_roles, dict):
             raise ValueError('{} parameter must be dict'.format(param_name))
-        for key, value in groups_or_roles.iteritems():
+        for key, value in groups_or_roles.items():
             if not isinstance(value, list):
                 raise ValueError('each value of the {} dict must be '
                                  'a list'.format(param_name))

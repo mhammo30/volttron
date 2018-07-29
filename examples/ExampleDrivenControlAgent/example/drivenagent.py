@@ -124,11 +124,11 @@ def DrivenAgent(config_path, **kwargs):
             results to a file or database.
             '''
             _log.debug('Processing Results!')
-            for key, value in results.commands.iteritems():
+            for key, value in results.commands.items():
                 _log.debug("COMMAND: {}->{}".format(key, value))
             for value in results.log_messages:
                 _log.debug("LOG: {}".format(value))
-            for key, value in results.table_output.iteritems():
+            for key, value in results.table_output.items():
                 _log.debug("TABLE: {}->{}".format(key, value))
             # publish to output file if available.
             if output_file != None:
@@ -155,7 +155,7 @@ def DrivenAgent(config_path, **kwargs):
 
                 for _, v in results.table_output.items():
                     for r in v:
-                        for key, value in r.iteritems():
+                        for key, value in r.items():
                             if isinstance(value, bool):
                                 value = int(value)
                             topic = topics.ANALYSIS_VALUE(point=key, **config['device']) #.replace('{analysis}', key)

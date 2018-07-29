@@ -63,6 +63,6 @@ class ResultsDictionary(weakref.WeakValueDictionary):
 
     def next(self):
         result = AsyncResult()
-        result.ident = ident = '%s.%s' % (next(self._counter), hash(result))
+        result.ident = ident = '%s.%s' % (next(self._counter), hash(result)) #pylint: disable=E0237
         self[ident] = result
         return result

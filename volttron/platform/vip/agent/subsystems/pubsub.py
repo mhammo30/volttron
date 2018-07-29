@@ -151,7 +151,7 @@ class PubSub(SubsystemBase):
             buses = self._my_subscriptions[platform]
             if bus in buses:
                 subscriptions = buses[bus]
-                for prefix, callbacks in subscriptions.iteritems():
+                for prefix, callbacks in subscriptions.items():
                     if topic.startswith(prefix):
                         handled += 1
                         for callback in callbacks:
@@ -173,11 +173,11 @@ class PubSub(SubsystemBase):
         self._sync(peer, {})
 
     def _sync(self, peer, items):
-        items = {(bus, prefix) for bus, topics in items.iteritems()
+        items = {(bus, prefix) for bus, topics in items.items()
                  for prefix in topics}
         remove = []
-        for bus, subscriptions in self._peer_subscriptions.iteritems():
-            for prefix, subscribers in subscriptions.iteritems():
+        for bus, subscriptions in self._peer_subscriptions.items():
+            for prefix, subscribers in subscriptions.items():
                 item = bus, prefix
                 try:
                     items.remove(item)
@@ -222,7 +222,7 @@ class PubSub(SubsystemBase):
             return
         if prefix is None:
             remove = []
-            for topic, subscribers in subscriptions.iteritems():
+            for topic, subscribers in subscriptions.items():
                 subscribers.discard(peer)
                 if not subscribers:
                     remove.append(topic)
@@ -238,7 +238,7 @@ class PubSub(SubsystemBase):
     def _peer_list(self, prefix='', bus='', subscribed=True, reverse=False):
         peer = bytes(self.rpc().context.vip_message.peer)
         if bus is None:
-            buses = self._peer_subscriptions.iteritems()
+            buses = self._peer_subscriptions.items()
         else:
             buses = [(bus, self._peer_subscriptions[bus])]
         if reverse:
@@ -247,7 +247,7 @@ class PubSub(SubsystemBase):
             test = lambda t: t.startswith(prefix)
         results = []
         for bus, subscriptions in buses:
-            for topic, subscribers in subscriptions.iteritems():
+            for topic, subscribers in subscriptions.items():
                 if test(topic):
                     member = peer in subscribers
                     if not subscribed or member:
@@ -265,7 +265,7 @@ class PubSub(SubsystemBase):
         except KeyError:
             subscriptions = dict()
         subscribers = set()
-        for prefix, subscription in subscriptions.iteritems():
+        for prefix, subscription in subscriptions.items():
             if subscription and topic.startswith(prefix):
                 subscribers |= subscription
         if subscribers:
@@ -463,7 +463,7 @@ class PubSub(SubsystemBase):
                 if bus in bus_subscriptions:
                     subscriptions = bus_subscriptions[bus]
                     remove = []
-                    for topic, callbacks in subscriptions.iteritems():
+                    for topic, callbacks in subscriptions.items():
                         try:
                             callbacks.remove(callback)
                         except KeyError:
@@ -903,7 +903,7 @@ class PubSubWithRPC(object):
         """Clear all the saved parameters.
         """
         try:
-            for ident, param in self.parameters.iteritems():
+            for ident, param in self.parameters.items():
                 param['event'].cancel()
             self.parameters.clear()
         except KeyError:

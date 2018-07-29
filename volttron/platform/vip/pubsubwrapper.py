@@ -89,11 +89,11 @@ class PubSubWrapper(Agent):
         self.vip.rpc.export(self._peer_list, 'pubsub.list')
 
     def _sync(self, peer, items):
-        items = {(bus, prefix) for bus, topics in items.iteritems()
+        items = {(bus, prefix) for bus, topics in items.items()
                  for prefix in topics}
         remove = []
-        for bus, subscriptions in self._peer_subscriptions.iteritems():
-            for prefix, subscribers in subscriptions.iteritems():
+        for bus, subscriptions in self._peer_subscriptions.items():
+            for prefix, subscribers in subscriptions.items():
                 item = bus, prefix
                 try:
                     items.remove(item)
@@ -135,7 +135,7 @@ class PubSubWrapper(Agent):
         #self._check_if_protected_topic(topic)
         subscriptions = self._peer_subscriptions[bus]
         subscribers = set()
-        for prefix, subscription in subscriptions.iteritems():
+        for prefix, subscription in subscriptions.items():
             if subscription and topic.startswith(prefix):
                 subscribers |= subscription
         if subscribers:
@@ -157,7 +157,7 @@ class PubSubWrapper(Agent):
     def _peer_list(self, prefix='', bus='', subscribed=True, reverse=False):
         peer = bytes(self.vip.rpc.context.vip_message.peer)
         if bus is None:
-            buses = self._peer_subscriptions.iteritems()
+            buses = self._peer_subscriptions.items()
         else:
             buses = [(bus, self._peer_subscriptions[bus])]
         if reverse:
@@ -166,7 +166,7 @@ class PubSubWrapper(Agent):
             test = lambda t: t.startswith(prefix)
         results = []
         for bus, subscriptions in buses:
-            for topic, subscribers in subscriptions.iteritems():
+            for topic, subscribers in subscriptions.items():
                 if test(topic):
                     member = peer in subscribers
                     if not subscribed or member:
@@ -178,7 +178,7 @@ class PubSubWrapper(Agent):
         subscriptions = self._peer_subscriptions[bus]
         if prefix is None:
             remove = []
-            for topic, subscribers in subscriptions.iteritems():
+            for topic, subscribers in subscriptions.items():
                 subscribers.discard(peer)
                 if not subscribers:
                     remove.append(topic)

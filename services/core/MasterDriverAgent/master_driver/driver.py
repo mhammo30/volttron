@@ -267,7 +267,7 @@ class DriverAgent(BasicAgent):
 
 
         if self.publish_depth_first or self.publish_breadth_first:
-            for point, value in results.iteritems():
+            for point, value in results.items():
                 depth_first_topic, breadth_first_topic = self.get_paths_for_point(point)
                 message = [value, self.meta_data[point]]
 

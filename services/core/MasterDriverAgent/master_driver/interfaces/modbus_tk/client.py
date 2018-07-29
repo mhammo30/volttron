@@ -611,7 +611,7 @@ class Client (object):
 
     def pprint(self):
         response = "pending writes: \n"
-        for f, v in six.iteritems(self._pending_writes):
+        for f, v in six.items(self._pending_writes):
             response = response + "\t{0} : {1}".format(f, v)
         return response
 
@@ -665,7 +665,7 @@ class Client (object):
 
     def dump_all(self):
         self.read_all()
-        return [(f, d.value, d.timestamp) for f, d in six.iteritems(self._data)]
+        return [(f, d.value, d.timestamp) for f, d in six.items(self._data)]
 
     def write_all(self):
         logger.debug("In write_all")

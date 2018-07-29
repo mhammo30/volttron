@@ -435,7 +435,7 @@ class RPC(SubsystemBase):
         self._exports[method.__name__] = self._add_auth_check(method, cap)
 
     @allow.classmethod
-    def allow(cls, capabilities):
+    def allow(cls, capabilities): #pylint: disable=E0213
         """
         Decorator specifies required agent capabilities to call a method.
 

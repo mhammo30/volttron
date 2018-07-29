@@ -37,7 +37,7 @@
 # }}}
 
 import logging
-import urlparse
+import urllib.parse as urlparse
 import uuid
 import os
 

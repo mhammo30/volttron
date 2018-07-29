@@ -179,11 +179,11 @@ class SEP2Agent(Agent):
                 pass
 
         _log.debug("Registering Endpoints: {}".format(self.__class__.__name__))
-        for _, endpoint in sep2.SEP2_ENDPOINTS.iteritems():
+        for _, endpoint in sep2.SEP2_ENDPOINTS.items():
             if endpoint.url not in self.vip.web._endpoints:
                 self.vip.web.register_endpoint(endpoint.url, getattr(self, endpoint.callback), "raw")
-        for device_id, device in self.devices.iteritems():
-            for _, endpoint in sep2.SEP2_EDEV_ENDPOINTS.iteritems():
+        for device_id, device in self.devices.items():
+            for _, endpoint in sep2.SEP2_EDEV_ENDPOINTS.items():
                 if endpoint.url.format(device_id) not in self.vip.web._endpoints:
                     self.vip.web.register_endpoint(endpoint.url.format(device_id),
                                                    getattr(self, endpoint.callback), "raw")
@@ -212,7 +212,7 @@ class SEP2Agent(Agent):
                 d.pin_code = device['pin_code']
 
         old_indices = []
-        for index, d in end_devices.iteritems():
+        for index, d in end_devices.items():
             if d.sfdi not in [device['sfdi'] for device in devices]:
                 old_indices.append(index)
         for i in old_indices:
@@ -314,7 +314,7 @@ class SEP2Agent(Agent):
         end_device = self.get_end_device(sfdi=sfdi)
         try:
             end_device_points = {}
-            for volttron_point_name, point_definition in end_device.mappings.iteritems():
+            for volttron_point_name, point_definition in end_device.mappings.items():
                 field_value = end_device.field_value(point_definition['SEP2 Resource Name'],
                                                      point_definition['SEP2 Field Name'])
                 end_device_points[volttron_point_name] = field_value

@@ -194,7 +194,7 @@ class ControlService(BaseAgent):
         return [{'name': name, 'uuid': uuid,
                  'tag': tag(uuid), 'priority': priority(uuid),
                  'identity': self.agent_vip_identity(uuid)}
-                for uuid, name in self._aip.list_agents().iteritems()]
+                for uuid, name in self._aip.list_agents().items()]
 
     @RPC.export
     def tag_agent(self, uuid, tag):
@@ -400,7 +400,7 @@ Agent = collections.namedtuple('Agent', 'name tag uuid vip_identity')
 
 def _list_agents(aip):
     return [Agent(name, aip.agent_tag(uuid), uuid, aip.agent_identity(uuid))
-            for uuid, name in aip.list_agents().iteritems()]
+            for uuid, name in aip.list_agents().items()]
 
 
 def escape(pattern):
@@ -861,20 +861,20 @@ def _get_auth_file(volttron_home):
 
 
 def _print_two_columns(dict_, key_name, value_name):
-        padding = 2
-        key_lengths = [len(key) for key in dict_] + [len(key_name)]
-        max_key_len = max(key_lengths) + padding
-        _stdout.write('{}{}{}\n'.format(key_name,
-            ' ' * (max_key_len - len(key_name)), value_name))
-        _stdout.write('{}{}{}\n'.format('-' * len(key_name),
-            ' ' * (max_key_len - len(key_name)),
-            '-' * len(value_name)))
-        for key in sorted(dict_):
-            value = dict_[key]
-            if isinstance(value, list):
-                value = sorted(value)
-            _stdout.write('{}{}{}\n'.format(key,
-                          ' ' * (max_key_len - len(key)), value))
+    padding = 2
+    key_lengths = [len(key) for key in dict_] + [len(key_name)]
+    max_key_len = max(key_lengths) + padding
+    _stdout.write('{}{}{}\n'.format(key_name,
+        ' ' * (max_key_len - len(key_name)), value_name))
+    _stdout.write('{}{}{}\n'.format('-' * len(key_name),
+        ' ' * (max_key_len - len(key_name)),
+        '-' * len(value_name)))
+    for key in sorted(dict_):
+        value = dict_[key]
+        if isinstance(value, list):
+            value = sorted(value)
+        _stdout.write('{}{}{}\n'.format(key,
+                        ' ' * (max_key_len - len(key)), value))
 
 
 def list_auth(opts, indices=None):
@@ -1874,7 +1874,7 @@ def main(argv=sys.argv):
         opts.log_config = config.expandall(opts.log_config)
     opts.vip_address = config.expandall(opts.vip_address)
     if getattr(opts, 'show_config', False):
-        for name, value in sorted(vars(opts).iteritems()):
+        for name, value in sorted(vars(opts).items()):
             print(name, repr(value))
         return
 

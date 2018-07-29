@@ -328,13 +328,13 @@ class BaseSmapVolttron(driver.SmapDriver, PublishMixin):
             headers_mod.DATE: now,
         }
          
-        for point, value in results.iteritems():
+        for point, value in results.items():
             if isinstance(value, bool):
                 value = int(value)
             self.add('/'+point, value)
             
         try:    
-            for point, value in results.iteritems():
+            for point, value in results.items():
                 if isinstance(value, bool):
                     value = int(value)
                 depth, breadth = self.get_paths_for_point('/'+point)

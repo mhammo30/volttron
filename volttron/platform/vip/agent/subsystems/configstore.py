@@ -140,14 +140,14 @@ class ConfigStore(SubsystemBase):
 
     def _initial_update(self, configs, reset_name_map=True):
         self._initialized = True
-        self._store = {key.lower(): value for (key,value) in configs.iteritems()}
+        self._store = {key.lower(): value for (key,value) in configs.items()}
         if reset_name_map:
             self._name_map = {key.lower(): key for key in configs.iterkeys()}
 
-        for config_name, config_contents in self._store.iteritems():
+        for config_name, config_contents in self._store.items():
             self._add_refs(config_name, config_contents)
 
-        for config_name, config_contents in self._default_store.iteritems():
+        for config_name, config_contents in self._default_store.items():
             if config_name not in self._store:
                 self._add_refs(config_name, config_contents)
 
@@ -274,7 +274,7 @@ class ConfigStore(SubsystemBase):
         if "config" in affected_configs:
             self._process_callbacks_one_config("config", affected_configs["config"], all_map)
 
-        for config_name, action in affected_configs.iteritems():
+        for config_name, action in affected_configs.items():
             if config_name == "config":
                 continue
             self._process_callbacks_one_config(config_name, action, all_map)
@@ -282,7 +282,7 @@ class ConfigStore(SubsystemBase):
 
     def _process_callbacks_one_config(self, config_name, action, name_map):
         callbacks = set()
-        for pattern, actions in self._subscriptions.iteritems():
+        for pattern, actions in self._subscriptions.items():
             if fnmatch.fnmatchcase(config_name, pattern) and action in actions:
                 callbacks.update(actions[action])
 

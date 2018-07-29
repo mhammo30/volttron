@@ -110,7 +110,7 @@ class Threadlet(threading.Thread):
         while self.__callbacks:
             callback, args, kwargs = self.__callbacks.pop()
             try:
-                callback(*args, **kwargs)   # pylint: disable=star-args
+                callback(*args, **kwargs)
             except Exception:   # pylint: disable=broad-except
                 context = None if self.send_errors else callback
                 hub.handle_error(context, *sys.exc_info())
@@ -187,14 +187,14 @@ class AsyncCall(object):
     def _run_call(receiver, func, args, kwargs):
         '''Run a pending call in its own greenlet.'''
         try:
-            exc_info, result = None, func(*args, **kwargs)   # pylint: disable=star-args
+            exc_info, result = None, func(*args, **kwargs)
         except Exception:   # pylint: disable=broad-except
             exc_info, result = sys.exc_info(), None
         if receiver is not None:
             receiver((exc_info, result))
         elif exc_info:
             hub = gevent.get_hub()
-            hub.handle_error(func, *exc_info)   # pylint: disable=star-args
+            hub.handle_error(func, *exc_info)
 
     # This method is static to prevent a reference loop so the object
     # can be garbage collected without stopping the async handler.
@@ -203,4 +203,4 @@ class AsyncCall(object):
         '''Execute pending calls.'''
         while calls:
             args = calls.pop()
-            gevent.spawn(cls._run_call, *args)   # pylint: disable=star-args
+            gevent.spawn(cls._run_call, *args)

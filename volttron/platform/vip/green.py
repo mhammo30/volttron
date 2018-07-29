@@ -63,12 +63,12 @@ from .router import BaseRouter as _BaseRouter
 from .socket import _Socket
 
 
-class Socket(_Socket, _green.Socket):
+class GSocket(_Socket, _green.Socket):
     _context_class = _green.Context
     _local_class = _local
 
     def __init__(self, *args, **kwargs):
-        super(Socket, self).__init__(*args, **kwargs)
+        super(GSocket, self).__init__(*args, **kwargs)
         object.__setattr__(self, '_Socket__send_lock', _RLock())
 
     @_contextmanager

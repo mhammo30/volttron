@@ -138,14 +138,14 @@ def process_main_config(main_file, output_directory, keep=False):
     with open("config", "w") as f:
         f.write(jsonapi.dumps(main_config, indent=2))
 
-    for name, contents in csv_contents.iteritems():
+    for name, contents in csv_contents.items():
         print "Writing", name
         with open(name, "w") as f:
             f.write(contents)
 
     unique_paths = set()
 
-    for name, config in driver_configs.iteritems():
+    for name, config in driver_configs.items():
         print "Writing", name
         dir_name = os.path.dirname(name)
 

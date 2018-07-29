@@ -48,7 +48,7 @@ import os
 import sys
 import threading
 import time
-import urlparse
+import urllib.parse as urlparse
 import uuid
 import weakref
 import signal
@@ -171,10 +171,10 @@ class BasicCore(object):
         self.onstop = Signal()
         self.onfinish = Signal()
         self.oninterrupt = None
-        prev_int_signal = gevent.signal.getsignal(signal.SIGINT)
+        prev_int_signal = gevent.signal.getsignal(signal.SIGINT) #pylint: disable=E1101
         # To avoid a child agent handler overwriting the parent agent handler
         if prev_int_signal in [None, signal.SIG_IGN, signal.SIG_DFL, signal.default_int_handler]:
-            self.oninterrupt = gevent.signal.signal(signal.SIGINT, self._on_sigint_handler)
+            self.oninterrupt = gevent.signal.signal(signal.SIGINT, self._on_sigint_handler)  #pylint: disable=E1101
         self._owner = owner
 
     def setup(self):
@@ -270,10 +270,10 @@ class BasicCore(object):
         current.link(lambda glt: self._async.stop())
 
         looper = self.loop(running_event)
-        looper.next()
+        looper.__next__()
         self.onsetup.send(self)
 
-        loop = looper.next()
+        loop = looper.__next__()
         if loop:
             self.spawned_greenlets.add(loop)
         scheduler = gevent.spawn(schedule_loop)
@@ -291,10 +291,10 @@ class BasicCore(object):
         except (gevent.GreenletExit, KeyboardInterrupt):
             pass
         scheduler.kill()
-        looper.next()
+        looper.__next__()
         receivers = self.onstop.sendby(self.link_receiver, self)
         gevent.wait(receivers)
-        looper.next()
+        looper.__next__()
         self.onfinish.send(self)
 
     def stop(self, timeout=None):
@@ -667,7 +667,7 @@ class Core(BasicCore):
                             if exc.errno == ENOTSOCK:
                                 break
 
-                except ZMQError as exc:
+                except ZMQError as exc: #pylint: disable=E0705
                     raise
                     # if exc.errno == EADDRINUSE:
                     #     pass
@@ -679,7 +679,7 @@ class Core(BasicCore):
                         if self.socket is not None:
                             self.socket.monitor(None, 0)
                     except Exception as exc:
-                        _log.debug("Error in closing the socket: {}".format(exc.message))
+                        _log.debug("Error in closing the socket: {}".format(str(exc)))
 
 
         self.onconnected.connect(hello_response)

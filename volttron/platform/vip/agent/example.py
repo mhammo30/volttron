@@ -1,4 +1,6 @@
 
+#!# outdated
+
 from __future__ import absolute_import, print_function
 
 import gevent
@@ -21,7 +23,7 @@ class ExampleAgent(Agent):
         self.core.periodic(5, self.saybye, wait=None)
 
     @Core.receiver('onstart')
-    def starting(self, sender, **kwargs):
+    def starting(self, sender, **kwargs):class PubSub
         print('agent starting')
         _, _, my_id = self.vip.hello().get(timeout=3)
         print('I am', my_id)

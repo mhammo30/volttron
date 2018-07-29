@@ -51,7 +51,7 @@ def prompt_response(prompt, valid_answers=None, default=None, echo=True):
         prompt += '[{}]: '.format(default)
     if echo:
         while True:
-            resp = raw_input(prompt)
+            resp = input(prompt)
             if resp == '' and default is not None:
                 return default
             if valid_answers is None or resp in valid_answers:

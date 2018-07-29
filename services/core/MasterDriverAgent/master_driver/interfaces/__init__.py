@@ -475,7 +475,7 @@ class RevertTracker(object):
         :type points: dict
         """
         clean_values = {}
-        for k, v in points.iteritems():
+        for k, v in points.items():
             if k not in self.dirty_points and k not in self.defaults:
                 clean_values[k] = v
         self.clean_values.update(clean_values)
@@ -668,7 +668,7 @@ class BasicRevert(object):
         """
         """Revert entire device to it's default state"""
         points = self._tracker.get_all_revert_values()
-        for point_name, value in points.iteritems():
+        for point_name, value in points.items():
             if not isinstance(value, DriverInterfaceError):
                 try:
                     self._set_point(point_name, value)

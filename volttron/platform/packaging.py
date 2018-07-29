@@ -146,7 +146,7 @@ def _get_agent_metadata(silent):
 def _get_setup_py(template, agent_package, metadata):
     metadata_strings = []
 
-    for key, value in metadata.iteritems():
+    for key, value in metadata.items():
         if value:
             metadata_strings.append('{key}="{value}",'.format(key=key, value=value))
 

@@ -189,7 +189,7 @@ class ResourceMonitor(object):
         '''
         resources = self.get_static_resources()
         failed = {}
-        for name, value in contract.iteritems():
+        for name, value in contract.items():
             local_value = resources.get(name)
             if local_value != value:
                 failed[name] = local_value

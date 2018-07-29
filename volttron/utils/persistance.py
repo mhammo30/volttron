@@ -2,7 +2,7 @@
 # http://code.activestate.com/recipes/576642-persistent-dict-with-multiple-standard-file-format/
 import pickle, json, csv, os, shutil, shelve, logging
 from threading import Thread
-from Queue import Queue
+from queue import Queue
 from copy import deepcopy
 
 _log = logging.getLogger(__name__)
@@ -110,7 +110,7 @@ class PersistentDict(dict):
         elif format == 'pickle':
             pickle.dump(dict(contents), fileobj, 2)
         else:
-            raise NotImplementedError('Unknown format: ' + repr(self.format))
+            raise NotImplementedError('Unknown format: ' + repr(format))
 
     def _load(self, fileobj):
         # try formats from most restrictive to least restrictive

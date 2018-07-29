@@ -61,7 +61,7 @@ from zmq import green, ZMQError
 
 
 # Create a context common to the green and non-green zmq modules.
-green.Context._instance = green.Context.shadow(zmq.Context.instance().underlying)
+green.Context._instance = green.Context.shadow(zmq.Context.instance().underlying) #pylint: disable=E1101
 from volttron.platform.agent import json as jsonapi
 
 from . import aip
@@ -222,7 +222,7 @@ class Monitor(threading.Thread):
         self.sock = sock
 
     def run(self):
-        events = {value: name[6:] for name, value in vars(zmq).iteritems()
+        events = {value: name[6:] for name, value in vars(zmq).items()
                   if name.startswith('EVENT_') and name != 'EVENT_ALL'}
         log = logging.getLogger('vip.monitor')
         if log.level == logging.NOTSET:
@@ -350,7 +350,8 @@ class Router(BaseRouter):
                 socket_path = os.path.expandvars('$VOLTTRON_HOME/run/messagedebug')
                 socket_path = os.path.expanduser(socket_path)
                 socket_path = 'ipc://{}'.format('@' if sys.platform.startswith('linux') else '') + socket_path
-                self._message_debugger_socket = zmq.Context().socket(zmq.PUB)
+                #!# temp pylint fix
+                self._message_debugger_socket = zmq.Context().socket(zmq.PUB) #pylint: disable=E1101  
                 self._message_debugger_socket.connect(socket_path)
             # Publish the routed message, including the "topic" (status/direction), for use by MessageDebuggerAgent.
             frame_bytes = [topic]
@@ -510,7 +511,8 @@ def start_volttron_process(opts):
     if isinstance(opts, dict):
         opts = type('Options', (), opts)()
         # vip_address is meant to be a list so make it so.
-        if not isinstance(opts.vip_address, list):
+        #!# temp pylint fix
+        if not isinstance(opts.vip_address, list): #pylint: disable=E1101
             opts.vip_address = [opts.vip_address]
     if opts.log:
         opts.log = config.expandall(opts.log)
@@ -550,18 +552,18 @@ def start_volttron_process(opts):
     if opts.instance_name is None:
         if len(opts.vip_address) > 0:
             opts.instance_name = opts.vip_address[0]
-    import urlparse
+    import urllib.parse as urlparse
 
     if opts.bind_web_address:
         parsed = urlparse.urlparse(opts.bind_web_address)
         if parsed.scheme not in ('http', 'https'):
-            raise StandardError(
+            raise Exception(
                 'bind-web-address must begin with http or https.')
         opts.bind_web_address = config.expandall(opts.bind_web_address)
     if opts.volttron_central_address:
         parsed = urlparse.urlparse(opts.volttron_central_address)
         if parsed.scheme not in ('http', 'https', 'tcp'):
-            raise StandardError(
+            raise Exception(
                 'volttron-central-address must begin with tcp, http or https.')
         opts.volttron_central_address = config.expandall(
             opts.volttron_central_address)
@@ -570,7 +572,7 @@ def start_volttron_process(opts):
     # Log configuration options
     if getattr(opts, 'show_config', False):
         _log.info('volttron version: {}'.format(__version__))
-        for name, value in sorted(vars(opts).iteritems()):
+        for name, value in sorted(vars(opts).items()):
             _log.info("%s: %s" % (name, str(repr(value))))
 
     # Increase open files resource limit to max or 8192 if unlimited
@@ -677,10 +679,12 @@ def start_volttron_process(opts):
                 auth.core.socket.send_vip(b'', b'quit')
 
         oninterrupt = None
-        prev_int_signal = gevent.signal.getsignal(signal.SIGINT)
+        #!# temp pylint fix
+        prev_int_signal = gevent.signal.getsignal(signal.SIGINT) #pylint: disable=E1101
         # To override default handler
         if prev_int_signal in [None, signal.SIG_IGN, signal.SIG_DFL, signal.default_int_handler]:
-            oninterrupt = gevent.signal.signal(signal.SIGINT, on_sigint_handler)
+            #!# temp pylint fix
+            oninterrupt = gevent.signal.signal(signal.SIGINT, on_sigint_handler) #pylint: disable=E1101
 
         # Start the config store before auth so we may one day have auth use it.
         config_store = ConfigStoreService(address=address, identity=CONFIGURATION_STORE)

@@ -189,4 +189,4 @@ class ConversionMapper(object):
         null_values = {'NAN', 'NA', '#NA', 'NULL', 'NONE',
                        'nan', 'na', '#na', 'null', 'none',
                        '', None}
-        return dict((c,self.conversion_map[c](v)) if v not in null_values else (c,None) for c,v in row_dict.iteritems())
+        return dict((c,self.conversion_map[c](v)) if v not in null_values else (c,None) for c,v in row_dict.items())

@@ -485,7 +485,7 @@ class BACnetInterface(BaseInterface):
     def scrape_all_callback(self, result):
         result_dict={}
         
-        for prop_tuple, value in result.iteritems():
+        for prop_tuple, value in result.items():
             name = self.reverse_point_map[prop_tuple]
             result_dict[name] = value        
         
@@ -493,7 +493,7 @@ class BACnetInterface(BaseInterface):
         
     def scrape_all(self):
         read_access_spec_list = []
-        for obj_data, properties in self.object_property_map.iteritems():
+        for obj_data, properties in self.object_property_map.items():
             obj_type, obj_inst = obj_data
             prop_ref_list = []
             for prop in properties:

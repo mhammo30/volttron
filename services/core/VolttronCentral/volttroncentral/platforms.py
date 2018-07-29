@@ -690,7 +690,7 @@ class PlatformHandler(object):
         self._log.debug("WHICH STATS: {}".format(which_stats))
         point_list = []
 
-        for point, item in message.iteritems():
+        for point, item in message.items():
             point_list.append(point)
 
         # Note adding the s to the end of the prefix.

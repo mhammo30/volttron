@@ -42,7 +42,7 @@ from __future__ import absolute_import
 import os
 import logging
 import zmq
-from zmq import Frame, NOBLOCK, ZMQError, EINVAL, EHOSTUNREACH
+from zmq import Frame, NOBLOCK, ZMQError, EINVAL, EHOSTUNREACH #pylint: disable=E0611
 
 from .pubsubservice import PubSubService
 
@@ -59,11 +59,11 @@ _log = logging.getLogger(__name__)
 _ROUTE_ERRORS = {
     errnum: (zmq.Frame(str(errnum).encode('ascii')),
              zmq.Frame(os.strerror(errnum).encode('ascii')))
-    for errnum in [zmq.EHOSTUNREACH, zmq.EAGAIN]
+    for errnum in [zmq.EHOSTUNREACH, zmq.EAGAIN] #pylint: disable=E1101
 }
 _INVALID_SUBSYSTEM = (
-    zmq.Frame(str(zmq.EPROTONOSUPPORT).encode('ascii')),
-    zmq.Frame(os.strerror(zmq.EPROTONOSUPPORT).encode('ascii'))
+    zmq.Frame(str(zmq.EPROTONOSUPPORT).encode('ascii')),  #pylint: disable=E1101
+    zmq.Frame(os.strerror(zmq.EPROTONOSUPPORT).encode('ascii'))  #pylint: disable=E1101
 )
 
 _log = logging.getLogger(__name__)
@@ -115,19 +115,19 @@ class BaseRouter(object):
         The socket is save in the socket attribute. The setup() method
         is called at the end of the method to perform additional setup.
         '''
-        self.socket = sock = self._socket_class(self.context, zmq.ROUTER)
+        self.socket = sock = self._socket_class(self.context, zmq.ROUTER) #pylint: disable=E1101
         sock.router_mandatory = True
         sock.sndtimeo = 0
         sock.tcp_keepalive = True
         sock.tcp_keepalive_idle = 180
         sock.tcp_keepalive_intvl = 20
         sock.tcp_keepalive_cnt = 6
-        self.context.set(zmq.MAX_SOCKETS, 30690)
+        self.context.set(zmq.MAX_SOCKETS, 30690) #pylint: disable=E1101
         # sock.setsockopt(zmq.SNDBUF, 40000)
         # sock.setsockopt(zmq.RCVBUF, 40000)
         # sock.set_hwm(60000)
         sock.set_hwm(6000)
-        _log.debug("ROUTER SENDBUF: {0}, {1}".format(sock.getsockopt(zmq.SNDBUF), sock.getsockopt(zmq.RCVBUF)))
+        _log.debug("ROUTER SENDBUF: {0}, {1}".format(sock.getsockopt(zmq.SNDBUF), sock.getsockopt(zmq.RCVBUF)))  #pylint: disable=E1101
         self.setup()
 
     def stop(self, linger=1):
@@ -280,7 +280,7 @@ class BaseRouter(object):
             name = subsystem.bytes
             if name == b'hello':
                 frames = [sender, recipient, proto, user_id, msg_id,
-                          b'hello', b'welcome', b'1.0', socket.identity, sender]
+                          b'hello', b'welcome', b'1.0', socket.identity, sender] #pylint: disable=E1101
             elif name == b'ping':
                 frames[:7] = [
                     sender, recipient, proto, user_id, msg_id, b'ping', b'pong']
@@ -299,7 +299,7 @@ class BaseRouter(object):
             elif name == b'error':
                 return
             else:
-                response = self.handle_subsystem(frames, user_id)
+                response = self.handle_subsystem(frames, user_id) #pylint: disable=E1111
                 if response is None:
                     # Handler does not know of the subsystem
                     errnum, errmsg = error = _INVALID_SUBSYSTEM

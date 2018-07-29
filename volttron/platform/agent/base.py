@@ -320,7 +320,7 @@ class BaseAgent(AgentBase):
         except zmq.error.Again:
             return
         try:
-            # Iterate over items() rather than iteritems() so that
+            # Iterate over items() rather than items() so that
             # handlers may subscribe and unsubscribe, which changes
             # the size of the _subscriptions dictionary.
             for prefix, handlers in self._subscriptions.items():

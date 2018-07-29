@@ -54,7 +54,7 @@ import zlib
 
 import mimetypes
 
-from requests.packages import ConnectionError, NewConnectionError
+from requests.packages import ConnectionError as RequestConnectionError, NewConnectionError
 # from requests.packages.urllib3.connection import (ConnectionError,
 #                                                   NewConnectionError)
 from volttron.platform.agent import json as jsonapi
@@ -128,7 +128,7 @@ class DiscoveryInfo(object):
                 "Invalid web_address passed {}"
                 .format(web_address)
             )
-        except (ConnectionError, NewConnectionError) as e:
+        except (RequestConnectionError, NewConnectionError) as e:
             raise DiscoveryError(
                 "Connection to {} not available".format(real_url)
             )
@@ -159,10 +159,10 @@ def is_ip_private(vip_address):
 
     # https://en.wikipedia.org/wiki/Private_network
 
-    priv_lo = re.compile("^127\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
-    priv_24 = re.compile("^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
-    priv_20 = re.compile("^192\.168\.\d{1,3}.\d{1,3}$")
-    priv_16 = re.compile("^172.(1[6-9]|2[0-9]|3[0-1]).[0-9]{1,3}.[0-9]{1,3}$")
+    priv_lo = re.compile(r'^127\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
+    priv_24 = re.compile(r'^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
+    priv_20 = re.compile(r'^192\.168\.\d{1,3}.\d{1,3}$')
+    priv_16 = re.compile(r'^172.(1[6-9]|2[0-9]|3[0-1]).[0-9]{1,3}.[0-9]{1,3}$')
 
     return priv_lo.match(ip) is not None or priv_24.match(
         ip) is not None or priv_20.match(ip) is not None or priv_16.match(

@@ -108,7 +108,7 @@ def json_error(ident, code, message, **data):
     return {'jsonrpc': '2.0', 'id': ident, 'error': error}
 
 
-class ParseError(StandardError):
+class ParseError(Exception):
     pass
 
 
@@ -146,7 +146,7 @@ class Error(Exception):
     '''Raised when a recoverable JSON-RPC protocol error occurs.'''
     def __init__(self, code, message, data=None):
         args = (code, message, data) if data is not None else (code, message)
-        super(Error, self).__init__(*args)   # pylint: disable=star-args
+        super(Error, self).__init__(*args)   
         self.code = code
         self.message = message
         self.data = data
@@ -418,7 +418,7 @@ class Dispatcher(object):
                     except AttributeError:
                         pass
                 error = {'detail': str(exc), 'exception.py': exc_info}
-                return json_error(ident, UNHANDLED_EXCEPTION,   # pylint: disable=star-args
+                return json_error(ident, UNHANDLED_EXCEPTION,   
                                   'unhandled exception', **error)
             if ident is not None:
                 return json_result(ident, result)

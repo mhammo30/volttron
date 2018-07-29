@@ -722,7 +722,7 @@ class ActuatorAgent(Agent):
                 if device_only in self._device_states:
                     device_states.append((device_only, self._device_states[device_only]))
             else:
-                device_states = self._device_states.iteritems()
+                device_states = self._device_states.items()
 
             for device, state in device_states:
                 _log.debug("device, state -  {}, {}".format(device, state))
@@ -980,7 +980,7 @@ class ActuatorAgent(Agent):
 
         results = {}
         errors = {}
-        for device, point_names in devices.iteritems():
+        for device, point_names in devices.items():
             r, e = self.vip.rpc.call(self.driver_vip_identity,
                                      'get_multiple_points',
                                      device,
@@ -1021,7 +1021,7 @@ class ActuatorAgent(Agent):
                 raise LockError("caller ({}) does not lock for device {}".format(requester_id, device))
 
         results = {}
-        for device, point_names_values in devices.iteritems():
+        for device, point_names_values in devices.items():
             r = self.vip.rpc.call(self.driver_vip_identity,
                                   'set_multiple_points',
                                   device,

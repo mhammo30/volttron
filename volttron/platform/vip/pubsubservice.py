@@ -49,7 +49,7 @@ from zmq import green
 from collections import defaultdict
 
 # Create a context common to the green and non-green zmq modules.
-green.Context._instance = green.Context.shadow(zmq.Context.instance().underlying)
+green.Context._instance = green.Context.shadow(zmq.Context.instance().underlying) #pylint: disable=E1101
 from .agent.subsystems.pubsub import ProtectedPubSubTopics
 from volttron.platform.jsonrpc import (INVALID_REQUEST, UNAUTHORIZED)
 from volttron.platform.vip.agent.errors import VIPError
@@ -132,14 +132,14 @@ class PubSubService(object):
         :type dict
         """
         #self._logger.debug("SYNC before: {0}, {1}".format(peer, items))
-        items = {(platform, bus, prefix) for platform, buses in items.iteritems()
-                                            for bus, topics in buses.iteritems()
+        items = {(platform, bus, prefix) for platform, buses in items.items()
+                                            for bus, topics in buses.items()
                                                 for prefix in topics}
         #self._logger.debug("SYNC after: {}".format(items))
         remove = []
-        for platform, bus_subscriptions in self._peer_subscriptions.iteritems():
-            for bus, subscriptions in bus_subscriptions.iteritems():
-                for prefix, subscribers in subscriptions.iteritems():
+        for platform, bus_subscriptions in self._peer_subscriptions.items():
+            for bus, subscriptions in bus_subscriptions.items():
+                for prefix, subscribers in subscriptions.items():
                     item = platform, bus, prefix
                     try:
                         items.remove(item)
@@ -256,7 +256,7 @@ class PubSubService(object):
                 subscriptions = self._peer_subscriptions[platform][bus]
                 if prefix is None:
                     remove = []
-                    for topic, subscribers in subscriptions.iteritems():
+                    for topic, subscribers in subscriptions.items():
                         subscribers.discard(peer)
                         if not subscribers:
                             remove.append(topic)
@@ -339,7 +339,7 @@ class PubSubService(object):
                 platform = 'all'
 
             if bus is None:
-                buses = self._peer_subscriptions[platform].iteritems()
+                buses = self._peer_subscriptions[platform].items()
             else:
                 buses = [(bus, self._peer_subscriptions[platform][bus])]
             if reverse:
@@ -347,7 +347,7 @@ class PubSubService(object):
             else:
                 test = lambda t: t.startswith(prefix)
             for bus, subscriptions in buses:
-                for topic, subscribers in subscriptions.iteritems():
+                for topic, subscribers in subscriptions.items():
                     if test(topic):
                         member = peer in subscribers
                         if not subscribed or member:
@@ -435,7 +435,7 @@ class PubSubService(object):
         subs.update(subscriptions)
         subscribers = set()
         # Check for local subscribers
-        for prefix, subscription in subs.iteritems():
+        for prefix, subscription in subs.items():
             if subscription and topic.startswith(prefix):
                 subscribers |= subscription
         if subscribers:
@@ -447,7 +447,7 @@ class PubSubService(object):
                     for sub in self._send(frames, publisher):
                         # Drop the subscriber if unreachable
                         self.peer_drop(sub)
-                except ZMQError:
+                except ZMQError: #pylint: disable=E0705
                     raise
         return len(subscribers)
 

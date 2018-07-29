@@ -251,7 +251,7 @@ class Publisher(Agent):
 
     def build_publishes(self, row):
         results = defaultdict(dict)
-        for name, value in row.iteritems():
+        for name, value in row.items():
             topic, point = self._name_map[name]
             parsed_value = float(value)
             results[topic][point] = parsed_value
@@ -315,7 +315,7 @@ class Publisher(Agent):
 
                 _log.debug("Publishing data for timestamp: {}".format(now))
 
-                for topic, message in publish_dict.iteritems():
+                for topic, message in publish_dict.items():
                     self._publish_point_all(topic, message, self._meta_data, headers)
 
                 if self._remember_playback:

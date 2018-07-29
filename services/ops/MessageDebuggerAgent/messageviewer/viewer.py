@@ -419,7 +419,7 @@ class MessageViewerCmd(Cmd):
                 # Gather the data into rows and columns.
                 # Collect a set of all column titles (the original data may have been sparse).
                 all_columns_set = set()
-                for row, inner_dict in response_items.iteritems():
+                for row, inner_dict in response_items.items():
                     for column in inner_dict.keys():
                         all_columns_set.add(column)
                 # Alpha-sort row and column labels.

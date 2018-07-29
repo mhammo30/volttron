@@ -581,7 +581,7 @@ class BACnetProxyAgent(Agent):
     def read_using_single_request(self, target_address, point_map):
         results = {}
 
-        for point, properties in point_map.iteritems():
+        for point, properties in point_map.items():
             if len(properties) == 3:
                 object_type, instance_number, property_name = properties
                 property_index = None
@@ -638,7 +638,7 @@ class BACnetProxyAgent(Agent):
         # Used to group properties together for the request.
         object_property_map = defaultdict(list)
 
-        for name, properties in point_map.iteritems():
+        for name, properties in point_map.items():
             if len(properties) == 3:
                 (object_type, instance_number,
                  property_name) = properties
@@ -712,7 +712,7 @@ class BACnetProxyAgent(Agent):
                             "{count}").format(count=count,
                                               target=target_address))
 
-                for prop_tuple, value in bacnet_results.iteritems():
+                for prop_tuple, value in bacnet_results.items():
                     name = reverse_point_map[prop_tuple]
                     result_dict[name] = value
 

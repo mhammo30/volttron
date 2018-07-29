@@ -181,7 +181,7 @@ class Interface(BaseInterface):
             Set value of a point_name on a device
         '''
         result = {}
-        for point_names, properties in point_map.iteritems():
+        for point_names, properties in point_map.items():
             point_name = properties[0]
 
             if point_name in self.program_name:
@@ -220,7 +220,7 @@ class Interface(BaseInterface):
         result = {}
         query = {}
         point_map_obj = {}
-        for point_names, properties in point_map.iteritems():
+        for point_names, properties in point_map.items():
             point_name =  properties[0]
     
             query = json.loads(self.thermostat.tstat())
